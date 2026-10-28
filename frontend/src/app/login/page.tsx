@@ -36,9 +36,17 @@ export default function LoginPage() {
 
       localStorage.setItem("token", response.data.token);
 
+      const authenticated = await refreshUser();
+
+      if (!authenticated) {
+        throw new Error(
+          "Login succeeded, but ResumeIQ could not verify your account. Please make sure the backend is running."
+        );
+      }
+
       toast.success("Login successful!");
 
-      window.location.href = "/dashboard";
+      router.replace("/dashboard");
     } catch (error) {
       const message =
         error instanceof Error

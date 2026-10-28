@@ -34,7 +34,15 @@ export default function DashboardPage() {
   const [historyLoading, setHistoryLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (authLoading) {
+      return;
+    }
+
+    if (!user) {
+      console.log(
+        "[DASHBOARD] authentication finished but no user"
+      );
+
       router.replace("/login");
     }
   }, [authLoading, user, router]);

@@ -69,13 +69,44 @@ export async function loginUser(
   return data;
 }
 
+// export async function getProfile(token: string) {
+//   const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
+//     method: "GET",
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+
+//   const data = await response.json();
+
+//   if (!response.ok) {
+//     throw new Error(data.message || "Failed to get profile");
+//   }
+
+//   return data;
+// }
+
 export async function getProfile(token: string) {
-  const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const url = `${API_BASE_URL}/api/auth/profile`;
+
+  console.log("[AUTH] API_BASE_URL:", API_BASE_URL);
+  console.log("[AUTH] Profile URL:", url);
+
+  let response: Response;
+
+  try {
+    response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("[AUTH] Network request failed:", error);
+    throw error;
+  }
+
+  console.log("[AUTH] Profile HTTP status:", response.status);
 
   const data = await response.json();
 
